@@ -1,18 +1,25 @@
 package br.com.cognitio.estatisticas;
 
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.TreeMap;
 
-public class ContagemPalavras extends TreeMap<String, Integer> {
+public class ContagemPalavras {
 
-	private static final long serialVersionUID = -7808176314880765385L;
+	private Map<String, Integer> map = new TreeMap<>();
 
 	public void adicionaPalavra(String palavra) {
-		Integer contagem = get(palavra);
+		Integer contagem = this.map.get(palavra);
 		if (contagem != null) {
 			contagem++;
 		} else {
 			contagem = 1;
 		}
-		put(palavra, contagem);
+		this.map.put(palavra, contagem);
+	}
+
+	public Set<Entry<String, Integer>> entrySet() {
+		return map.entrySet();
 	}
 }

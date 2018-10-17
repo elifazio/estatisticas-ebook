@@ -2,7 +2,6 @@ package br.com.cognitio.estatisticas;
 
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.jsoup.Jsoup;
@@ -10,18 +9,13 @@ import org.jsoup.nodes.Document;
 
 import cotuba.domain.Capitulo;
 import cotuba.domain.Ebook;
-import cotuba.plugin.Plugin;
+import cotuba.plugin.AoFinalizarGeracao;
 
-public class CalculadoraEstatisticas implements Plugin {
-
-	@Override
-	public String cssDoTema() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+public class CalculadoraEstatisticas implements AoFinalizarGeracao {
 
 	@Override
 	public void aposGeracao(Ebook ebook) {
+		ContagemPalavras contagemPalavras = new ContagemPalavras();
 		for (Capitulo capitulo : ebook.getCapitulos()) {
 			String html = capitulo.getConteudoHTML();
 			Document doc = Jsoup.parse(html);
@@ -31,8 +25,6 @@ public class CalculadoraEstatisticas implements Plugin {
 					.replaceAll("[^\\p{ASCII}]", "");
 
 			String[] palavras = textoDoCapituloSemAcentos.split("\\s+");
-			ContagemPalavras contagemPalavras = new ContagemPalavras();
-
 			for (String palavra : palavras) {
 				String emMaiusculas = palavra.toUpperCase();
 				contagemPalavras.adicionaPalavra(emMaiusculas);;
@@ -44,7 +36,5 @@ public class CalculadoraEstatisticas implements Plugin {
 				System.out.println(palavra + ": " + ocorrencias);
 			}
 		}
-
 	}
-
 }
